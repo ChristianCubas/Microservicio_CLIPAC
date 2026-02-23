@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+<!-- ===== HEADER (IGUAL) ===== -->
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="/imgs/clipac.png" alt="Logo Clínica">
+        </div>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="#especialidades">Especialidades</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="/pacientes/nuevo">Regístrate</a>
+            <a href="/iniciarSesion">Iniciar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== LOGIN SECTION ===== -->
+<section class="login-section">
+    <div class="login-container">
+
+        <h2>Login</h2>
+        <p class="subtitle">
+            Ingrese sus credenciales para acceder.
+        </p>
+
+        <form th:action="@{/login}" method="post">
+
+            <div class="form-group">
+                <label>Email</label>
+                <br>
+                <input type="text" name="username" placeholder="Ingrese su usuario" class="w-100 py-2 px-1" required>
+            </div>
+
+            <div class="form-group mt-3">
+                <label>Contraseña</label>
+                <br>
+                <input type="password" name="password" placeholder="Ingrese su contraseña" class="w-100 py-2 px-1" required>
+            </div>
+
+            <button type="submit" class="w-100 btn-primary mt-4 py-2 rounded">Iniciar Sesión</button>
+
+        </form>
+
+    </div>
+</section>
+
+<!-- ===== FOOTER (IGUAL) ===== -->
+<footer>
+    <div class="footer-container">
+        <div>
+            <h4>Clínica del Pacífico</h4>
+            <p>Av. Principal 123 - Lima, Perú</p>
+            <p>Tel: (01) 123-4567</p>
+        </div>
+        <div>
+            <h4>Horario</h4>
+            <p>Lunes - Sábado</p>
+            <p>8:00 am - 8:00 pm</p>
+        </div>
+        <div>
+            <h4>Emergencias</h4>
+            <p>Disponible 24/7</p>
+        </div>
+    </div>
+    <p class="copyright">© 2026 Clínica del Pacífico - Todos los derechos reservados</p>
+</footer>
+
+</body>
+</html>
