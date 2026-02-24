@@ -45,9 +45,6 @@ public class PacienteRoutes {
             sesion.setAttribute("paciente",paciente);
             model.addAttribute("usuario", paciente);
 
-            redirectAttributes.addFlashAttribute("mensaje", "Paciente logeado exitosamente");
-            redirectAttributes.addFlashAttribute("tipo", "success");
-
             System.out.println("Paciente: "+paciente);
 
             return "registrarCita";
@@ -56,9 +53,6 @@ public class PacienteRoutes {
             if (trabajador != null){
                 sesion.setAttribute("trabajador",trabajador);
                 model.addAttribute("usuario",trabajador);
-
-                redirectAttributes.addFlashAttribute("mensaje", "Trabajador logeado exitosamente");
-                redirectAttributes.addFlashAttribute("tipo", "success");
 
                 System.out.println("Trabajador: "+trabajador);
 
