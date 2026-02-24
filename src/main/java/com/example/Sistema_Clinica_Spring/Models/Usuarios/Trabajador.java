@@ -55,6 +55,10 @@ public class Trabajador {
 
     @Column(nullable = false)
     @Getter @Setter
+    private String contrasenia;
+
+    @Column(nullable = false)
+    @Getter @Setter
     private Integer estado;
 
     @Column(nullable = false)

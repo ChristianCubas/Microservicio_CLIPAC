@@ -1,7 +1,10 @@
 package com.example.Sistema_Clinica_Spring.Routes.Usuarios;
 
 import com.example.Sistema_Clinica_Spring.Models.Usuarios.Paciente;
+import com.example.Sistema_Clinica_Spring.Models.Usuarios.Trabajador;
 import com.example.Sistema_Clinica_Spring.Services.Usuarios.ServicePaciente;
+import com.example.Sistema_Clinica_Spring.Services.Usuarios.ServiceTrabajador;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,9 @@ public class PacienteRoutes {
     @Autowired
     private ServicePaciente servicePaciente;
 
+    @Autowired
+    private ServiceTrabajador serviceTrabajador;
+
     /* RUTAS GENERALES */
 
     @GetMapping("/")
@@ -26,8 +32,41 @@ public class PacienteRoutes {
     }
 
     @GetMapping("/iniciarSesion")
-    public String login(){
+    public String logearTemplate(){
         return "login";
+    }
+
+    /* LOGEAR PACIENTE/TRABAJADOR */
+
+    @PostMapping("/login")
+    public String loginUsuario(String email, String contrasenia, Model model, HttpSession sesion, RedirectAttributes redirectAttributes){
+        Paciente paciente = servicePaciente.logearPaciente(email,contrasenia);
+        if (paciente != null){
+            sesion.setAttribute("paciente",paciente);
+            model.addAttribute("usuario", paciente);
+
+            redirectAttributes.addFlashAttribute("mensaje", "Paciente logeado exitosamente");
+            redirectAttributes.addFlashAttribute("tipo", "success");
+
+            System.out.println("Paciente: "+paciente);
+
+            return "registrarCita";
+        }else{
+            Trabajador trabajador = serviceTrabajador.logearTrabajador(email, contrasenia);
+            if (trabajador != null){
+                sesion.setAttribute("trabajador",trabajador);
+                model.addAttribute("usuario",trabajador);
+
+                redirectAttributes.addFlashAttribute("mensaje", "Trabajador logeado exitosamente");
+                redirectAttributes.addFlashAttribute("tipo", "success");
+
+                System.out.println("Trabajador: "+trabajador);
+
+                return "Dashboard/dashboard";
+            }else{
+                return "index";
+            }
+        }
     }
 
     /* CREAR PACIENTE */
@@ -44,7 +83,7 @@ public class PacienteRoutes {
         paciente.setCreatedAt(LocalDateTime.now());
         servicePaciente.crearPaciente(paciente);
 
-        // ← Agregar estos 2 líneas para el toastr
+        // Toastr
         redirectAttributes.addFlashAttribute("mensaje", "Paciente registrado exitosamente");
         redirectAttributes.addFlashAttribute("tipo", "success");
 

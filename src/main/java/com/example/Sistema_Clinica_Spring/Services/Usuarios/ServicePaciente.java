@@ -58,4 +58,13 @@ public class ServicePaciente {
         pacienteRepository.deleteById(id_paciente);
         return ResponseEntity.ok("Paciente eliminado exitosamente");
     }
+
+    public Paciente logearPaciente(String email, String contrasenia){
+        for(Paciente paciente : pacienteRepository.findAll()){
+            if (paciente.getEmail().equals(email) && paciente.getContrasenia().equals(contrasenia)){
+                return paciente;
+            }
+        }
+        return null;
+    }
 }

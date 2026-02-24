@@ -42,6 +42,7 @@ public class ServiceTrabajador implements TrabajadorService {
             trabajador_actualizar.setDireccion(trabajador.getDireccion());
             trabajador_actualizar.setColegiatura(trabajador.getColegiatura());
             trabajador_actualizar.setTipoTrabajador(trabajador.getTipoTrabajador());
+            trabajador_actualizar.setContrasenia(trabajador.getContrasenia());
             trabajador_actualizar.setEstado(trabajador.getEstado());
 
             trabajadorRepository.save(trabajador);
@@ -54,5 +55,15 @@ public class ServiceTrabajador implements TrabajadorService {
     public ResponseEntity<String> eliminarTrabajador(Long id_trabajador) {
         trabajadorRepository.deleteById(id_trabajador);
         return ResponseEntity.ok("Trabajador eliminado exitosamente");
+    }
+
+    public Trabajador logearTrabajador(String email,String contrasenia){
+        for (Trabajador trabajador : trabajadorRepository.findAll()){
+            if (trabajador.getEmail().equals(email) && trabajador.getContrasenia().equals(contrasenia)){
+                return trabajador;
+            }
+        }
+
+        return null;
     }
 }

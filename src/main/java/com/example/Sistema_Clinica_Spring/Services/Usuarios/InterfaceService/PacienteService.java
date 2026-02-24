@@ -11,4 +11,5 @@ public interface PacienteService {
     public ResponseEntity<String> crearPaciente(Paciente paciente);
     public ResponseEntity<String> actualizarPaciente(Long id_paciente, Paciente paciente);
     public ResponseEntity<String> eliminarPaciente(Long id_paciente);
+    public Paciente logearPaciente(String email, String contrasenia);
 }
