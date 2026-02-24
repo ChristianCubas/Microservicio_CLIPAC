@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* ============================= */
+/* BOTÓN TOGGLE */
+/* ============================= */
+.toggle-btn {
+    position: fixed;
+    top: 30px;
+    left: 15px;
+    background-color: #0b3d91; /* Azul oscuro */
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    z-index: 2000;
+    transition: 0.3s;
+}
+
+.toggle-btn:hover {
+    background-color: #082b66;
+}
+
+/* ============================= */
+/* CONTENEDOR GENERAL */
+/* ============================= */
+.dashboard-container {
+    display: flex;
+}
+
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #002e7c;
+    color: white;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* Contraído en desktop */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* Texto desaparece COMPLETAMENTE */
+.sidebar.collapsed .text {
+    display: none;
+}
+
+.logo{
+    width:120px;
+    border-radius: 5px;
+}
+
+.sidebar.collapsed .logo {
+    display: none;
+}
+
+/* HEADER SIDEBAR */
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ============================= */
+/* MENU */
+/* ============================= */
+.menu {
+    list-style: none;
+    margin-top: 30px;
+}
+
+.menu li {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu li:hover {
+    background-color: #092c6c;
+}
+
+/* ÍCONOS MEDIANOS */
+.menu li i {
+    font-size: 22px;
+    margin-right: 15px;
+    min-width: 25px;
+    text-align: center;
+}
+
+/* TEXTO */
+.menu li .text {
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+/* ============================= */
+/* CONTENIDO PRINCIPAL */
+/* ============================= */
+.main-content {
+    flex: 1;
+    padding: 20px 40px;
+}
+
+/* ============================= */
+/* RESPONSIVE MOBILE */
+/* ============================= */
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100%;
+        z-index: 1500;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        padding: 20px;
+        padding-top: 90px;
+    }
+
+}

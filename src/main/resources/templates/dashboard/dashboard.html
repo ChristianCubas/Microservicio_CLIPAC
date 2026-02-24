@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Clínica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+<!-- BOTÓN TOGGLE SIEMPRE VISIBLE -->
+<button id="toggleSidebar" class="toggle-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+
+        <div class="sidebar-header">
+            <img src="/imgs/clipac.png" class="logo"/>
+        </div>
+
+        <ul class="menu">
+            <li>
+                <i class="fa-solid fa-user"></i>
+                <span class="text">Trabajadores</span>
+            </li>
+
+            <li>
+                <i class="fas fa-user-injured"></i>
+                <span class="text">Pacientes</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-hospital"></i>
+                <span class="text">Consultorios</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-calendar"></i>
+                <span class="text">Programacion y horarios</span>
+            </li>
+
+            <li>
+                <i class="fas fa-calendar-check"></i>
+                <span class="text">Citas</span>
+            </li>
+
+            <li>
+                <i class="fas fa-chart-line"></i>
+                <span class="text">Prescripciones medicas</span>
+            </li>
+
+            <li>
+                <i class="fas fa-pills"></i>
+                <span class="text">Medicamentos</span>
+            </li>
+
+            <li>
+                <i class="fas fa-boxes"></i>
+                <span class="text">Inventario</span>
+            </li>
+        </ul>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <h1>Bienvenido al Dashboard</h1>
+        <p>Panel de administración del sistema clínico.</p>
+    </main>
+
+</div>
+
+<script>
+    const toggleBtn = document.getElementById("toggleSidebar");
+    const sidebar = document.getElementById("sidebar");
+
+    toggleBtn.addEventListener("click", () => {
+
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle("active");
+        } else {
+            sidebar.classList.toggle("collapsed");
+        }
+
+    });
+</script>
+
+</body>
+</html>
