@@ -16,9 +16,10 @@ public class Trabajador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_trabajador")
     @Getter
     @Setter
-    private Long idTrabajador;
+    private Long id_trabajador;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_trabajador", nullable = false)

@@ -13,65 +13,35 @@
 </head>
 <body>
 
-<!-- BOTÓN TOGGLE SIEMPRE VISIBLE -->
-<button id="toggleSidebar" class="toggle-btn">
-    <i class="fas fa-bars"></i>
-</button>
-
 <div class="dashboard-container">
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="sidebar">
 
-        <div class="sidebar-header">
+        <!-- HEADER CON BOTÓN + LOGO -->
+        <div class="sidebar-top">
+            <button id="toggleSidebar" class="toggle-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+
             <img src="/imgs/clipac.png" class="logo"/>
         </div>
 
+        <!-- MENÚ -->
         <ul class="menu">
-            <li>
-                <i class="fa-solid fa-user"></i>
-                <span class="text">Trabajadores</span>
-            </li>
-
-            <li>
-                <i class="fas fa-user-injured"></i>
-                <span class="text">Pacientes</span>
-            </li>
-
-            <li>
-                <i class="fa-solid fa-hospital"></i>
-                <span class="text">Consultorios</span>
-            </li>
-
-            <li>
-                <i class="fa-solid fa-calendar"></i>
-                <span class="text">Programacion y horarios</span>
-            </li>
-
-            <li>
-                <i class="fas fa-calendar-check"></i>
-                <span class="text">Citas</span>
-            </li>
-
-            <li>
-                <i class="fas fa-chart-line"></i>
-                <span class="text">Prescripciones medicas</span>
-            </li>
-
-            <li>
-                <i class="fas fa-pills"></i>
-                <span class="text">Medicamentos</span>
-            </li>
-
-            <li>
-                <i class="fas fa-boxes"></i>
-                <span class="text">Inventario</span>
-            </li>
+            <li><a href="/trabajadores"><i class="fa-solid fa-user"></i><span class="text">Trabajadores</span></a></li>
+            <li><a href="#"><i class="fas fa-user-injured"></i><span class="text">Pacientes</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-hospital"></i><span class="text">Consultorios</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-calendar"></i><span class="text">Programación y horarios</span></a></li>
+            <li><a href="#"><i class="fas fa-calendar-check"></i><span class="text">Citas</span></a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i><span class="text">Prescripciones médicas</span></a></li>
+            <li><a href="#"><i class="fas fa-pills"></i><span class="text">Medicamentos</span></a></li>
+            <li><a href="#"><i class="fas fa-boxes"></i><span class="text">Inventario</span></a></li>
         </ul>
 
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
     <main class="main-content">
         <h1>Bienvenido al Dashboard</h1>
         <p>Panel de administración del sistema clínico.</p>
@@ -84,13 +54,11 @@
     const sidebar = document.getElementById("sidebar");
 
     toggleBtn.addEventListener("click", () => {
-
         if (window.innerWidth <= 768) {
             sidebar.classList.toggle("active");
         } else {
             sidebar.classList.toggle("collapsed");
         }
-
     });
 </script>
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class PacienteRoutes {
@@ -95,5 +96,15 @@ public class PacienteRoutes {
         redirectAttributes.addFlashAttribute("tipo", "success");
 
         return "redirect:/pacientes/nuevo";
+    }
+
+    @GetMapping("/pacientes")
+    public String listarPacientes(Model model){
+        List<Paciente> pacientes = servicePaciente.listarPacientes();
+
+        model.addAttribute("pacientes",pacientes);
+        model.addAttribute("title", "Pacientes");
+
+        return "dashboard/Apartados/Pacientes";
     }
 }
