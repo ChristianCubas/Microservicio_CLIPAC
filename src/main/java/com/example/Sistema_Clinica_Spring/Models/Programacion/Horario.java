@@ -1,13 +1,12 @@
 package com.example.Sistema_Clinica_Spring.Models.Programacion;
 
-import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Medicamento;
 import com.example.Sistema_Clinica_Spring.Models.Transacciones.Cita;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Horario")
@@ -15,12 +14,12 @@ import java.util.ArrayList;
 public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_horario")
     @Getter @Setter
     private long id_horario;
 
-    @ManyToMany(mappedBy = "horarios", fetch = FetchType.LAZY)
-    @Getter @Setter
-    private ArrayList<Programacion> programaciones;
+    @OneToMany(mappedBy = "horario")
+    private List<Programacion> programaciones;
 
     @Column(name = "hora_inicio", nullable = false)
     @Getter @Setter
@@ -36,14 +35,5 @@ public class Horario {
 
     @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Getter @Setter
-    private ArrayList<Cita> listadoCitas;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "prescripcion_medica",
-            joinColumns = @JoinColumn(name = "id_cita"),
-            inverseJoinColumns = @JoinColumn(name = "id_medicamento")
-    )
-    @Getter @Setter
-    private ArrayList<Medicamento> listadoMedicamentos;
+    private List<Cita> listadoCitas;
 }

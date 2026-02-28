@@ -43,6 +43,18 @@ public class Service_tipo_trabajador implements Tipo_trabajadorService {
         return null;
     }
 
+    public ResponseEntity<String> darBajaTipoTrabajador(Long id_tipo_trabajador){
+        Optional<Tipo_trabajador> tipo_trabajador = tipoTrabajadorRepository.findById(id_tipo_trabajador);
+        if (tipo_trabajador.isPresent()){
+            Tipo_trabajador tipotrabajador = tipo_trabajador.get();
+            tipotrabajador.setEstado(0);
+            tipoTrabajadorRepository.save(tipotrabajador);
+            return ResponseEntity.ok("Tipo trabajador eliminado exitosamente");
+        }
+
+        return null;
+    }
+
     public ResponseEntity<String> eliminarTipoTrabajador(Long id_tipo_trabajador){
         tipoTrabajadorRepository.deleteById(id_tipo_trabajador);
         return ResponseEntity.ok("Tipo trabajador eliminado exitosamente");

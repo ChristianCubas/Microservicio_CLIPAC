@@ -39,6 +39,7 @@ public class ServiceConsultorio implements ConsultorioService {
             consultorioActualizar.setEstado(consultorio.getEstado());
             consultorioActualizar.setPiso(consultorio.getPiso());
             consultorioActualizar.setProgramaciones(consultorio.getProgramaciones());
+            consultorioActualizar.setNombre(consultorio.getNombre());
 
             consultorioRepository.save(consultorioActualizar);
             return ResponseEntity.ok("Consultorio actualizado exitosamente");

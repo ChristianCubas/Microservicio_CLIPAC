@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -61,4 +62,13 @@ public class Medicamento {
     @OneToMany(mappedBy = "medicamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Getter @Setter
     private List<Kardex_medicamento> listadoKardex;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "prescripcion_medica",
+            joinColumns = @JoinColumn(name = "id_cita"),
+            inverseJoinColumns = @JoinColumn(name = "id_medicamento")
+    )
+    @Getter @Setter
+    private ArrayList<Medicamento> listadoMedicamentos;
 }

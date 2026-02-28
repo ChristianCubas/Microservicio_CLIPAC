@@ -10,5 +10,6 @@ public interface Tipo_trabajadorService {
     public Tipo_trabajador obtenerTipoTrabajador(Long id_tipo_trabajador);
     public ResponseEntity<String> crearTipoTrabajador(Tipo_trabajador tipo_trabajador);
     public ResponseEntity<String> actualizarTipoTrabajador(Long id_tipo_trabajador, Tipo_trabajador tipo_trabajador);
+    public ResponseEntity<String> darBajaTipoTrabajador(Long id_tipo_trabajador);
     public ResponseEntity<String> eliminarTipoTrabajador(Long id_tipo_trabajador);
 }

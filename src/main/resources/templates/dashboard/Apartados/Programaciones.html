@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+<div th:replace="~{dashboard-layout :: dashboardLayout(title='Programación Semanal', content=~{::main})}">
+
+    <main class="main-content">
+
+        <div class="container py-4">
+
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-calendar-alt"></i> Programación Semanal
+                </h2>
+
+                <a th:href="@{/programaciones/nueva}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nueva Programación
+                </a>
+            </div>
+
+            <!-- MENSAJES -->
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <!-- FILTROS -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <form th:action="@{/filtrar}" method="get" class="row g-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label">Especialidad</label>
+                            <select name="especialidadId" class="form-select">
+                                <option value="">Todas</option>
+                                <option th:each="esp : ${especialidades}"
+                                        th:value="${esp.id_especialidad}"
+                                        th:text="${esp.nombre}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Trabajador</label>
+                            <select name="trabajadorId" class="form-select">
+                                <option value="">Todos</option>
+                                <option th:each="trab : ${trabajadores}"
+                                        th:value="${trab.id_trabajador}"
+                                        th:text="${trab.nombres + ' ' + trab.apellidos}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Consultorio</label>
+                            <select name="consultorioId" class="form-select">
+                                <option value="">Todos</option>
+                                <option th:each="con : ${consultorios}"
+                                        th:value="${con.id_consultorio}"
+                                        th:text="${con.nombre}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-dark">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- TABLA HORARIO -->
+            <div class="card shadow-sm">
+                <div class="card-body table-responsive">
+
+                    <table class="table table-bordered text-center">
+
+                        <thead class="table-dark">
+                        <tr>
+                            <th>Horario</th>
+                            <th>Lun</th>
+                            <th>Mar</th>
+                            <th>Mié</th>
+                            <th>Jue</th>
+                            <th>Vie</th>
+                            <th>Sáb</th>
+                            <th>Dom</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="horario : ${horarios}">
+                            <td>
+                                <span th:text="${horario.hora_inicio}"></span> -
+                                <span th:text="${horario.hora_fin}"></span>
+                            </td>
+
+                            <td th:each="dia : ${#numbers.sequence(1,7)}">
+
+                                <div th:each="prog : ${programaciones}"
+                                     th:if="${prog.dia == dia and prog.horario.id_horario == horario.id_horario}"
+                                     class="bg-primary text-white p-2 rounded">
+
+                                    <small th:text="${prog.trabajador.nombres}"></small><br>
+                                    <small th:text="${prog.consultorio.nombre}"></small>
+
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Sidebar toggle
+        const toggleBtn = document.getElementById("toggleSidebar");
+        const sidebar = document.getElementById("sidebar");
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener("click", function () {
+                sidebar.classList.toggle("collapsed");
+            });
+        }
+
+        // Inicializar DataTable
+        $('#tablaPacientes').DataTable({
+            language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            },
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50]
+        });
+
+    });
+</script>
+</body>
+</html>

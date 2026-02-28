@@ -21,8 +21,7 @@ body {
 /* ============================= */
 .sidebar {
     width: 260px;
-    height: 100vh;
-    background-color: #002e7c; /* Azul completo */
+    background-color: #002e7c;
     color: white;
     transition: 0.3s;
     display: flex;

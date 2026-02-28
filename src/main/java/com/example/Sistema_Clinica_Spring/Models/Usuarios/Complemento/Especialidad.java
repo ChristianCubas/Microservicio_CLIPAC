@@ -14,6 +14,7 @@ import java.util.List;
 public class Especialidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_especialidad")
     @Getter
     @Setter
     private long id_especialidad;

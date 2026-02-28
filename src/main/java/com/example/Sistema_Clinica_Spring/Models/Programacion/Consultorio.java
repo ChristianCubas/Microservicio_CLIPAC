@@ -2,8 +2,6 @@ package com.example.Sistema_Clinica_Spring.Models.Programacion;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
@@ -14,19 +12,18 @@ public class Consultorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    private Long idConsultorio;
+    @Column(name = "id_consultorio")
+    private Long id_consultorio;
+
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
 
     @Column(nullable = false)
-    @Getter @Setter
     private String piso;
 
     @Column(nullable = false)
-    @Getter @Setter
     private Integer estado;
 
-    @ManyToMany(mappedBy = "consultorios", fetch = FetchType.LAZY)
-    @Getter @Setter
+    @OneToMany(mappedBy = "consultorio", fetch = FetchType.LAZY)
     private List<Programacion> programaciones;
 }

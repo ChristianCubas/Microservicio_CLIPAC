@@ -37,6 +37,13 @@
 
             <ul class="menu ps-0">
                 <li>
+                    <a th:href="@{/tipos_trabajadores}">
+                        <i class="fa-solid fa-shield"></i>
+                        <span class="text">Roles & permisos</span>
+                    </a>
+                </li>
+
+                <li>
                     <a th:href="@{/trabajadores}">
                         <i class="fa-solid fa-user"></i>
                         <span class="text">Trabajadores</span>
@@ -51,6 +58,20 @@
                 </li>
 
                 <li>
+                    <a th:href="@{/especialidades}">
+                        <i class="fa-solid fa-briefcase-medical"></i>
+                        <span class="text">Especialidades</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/horarios}">
+                        <i class="fa-solid fa-clock"></i>
+                        <span class="text">Horarios</span>
+                    </a>
+                </li>
+
+                <li>
                     <a th:href="@{/consultorios}">
                         <i class="fa-solid fa-hospital"></i>
                         <span class="text">Consultorios</span>
@@ -58,7 +79,7 @@
                 </li>
 
                 <li>
-                    <a th:href="@{/horarios}">
+                    <a th:href="@{/programaciones}">
                         <i class="fa-solid fa-calendar"></i>
                         <span class="text">Programación y horarios</span>
                     </a>
@@ -89,6 +110,13 @@
                     <a th:href="@{/inventario}">
                         <i class="fas fa-boxes"></i>
                         <span class="text">Inventario</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/rotacion}">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span class="text">Rotacion medicamentos</span>
                     </a>
                 </li>
             </ul>

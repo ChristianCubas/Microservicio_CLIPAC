@@ -14,9 +14,10 @@ public class Tipo_trabajador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tipo_trabajador")
     @Getter
     @Setter
-    private Long idTipoTrabajador;
+    private Long id_tipo_trabajador;
 
     @Column(nullable = false)
     @Getter @Setter
