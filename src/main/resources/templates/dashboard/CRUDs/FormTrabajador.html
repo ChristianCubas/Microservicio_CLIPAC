@@ -56,10 +56,10 @@
                             <div class="col-md-6">
                                 <label class="form-label">Tipo Trabajador</label>
                                 <select class="form-select"
-                                        th:field="*{tipoTrabajador.idTipoTrabajador}" required>
+                                        th:field="*{tipoTrabajador.id_tipo_trabajador}" required>
                                     <option value="">Seleccione</option>
                                     <option th:each="t : ${tipos}"
-                                            th:value="${t.idTipoTrabajador}"
+                                            th:value="${t.id_tipo_trabajador}"
                                             th:text="${t.nombre}">
                                     </option>
                                 </select>
@@ -130,6 +130,15 @@
                                             th:value="${e.id_especialidad}"
                                             th:text="${e.nombre}">
                                     </option>
+                                </select>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="col-md-6">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{estado}">
+                                    <option th:value="1">Activo</option>
+                                    <option th:value="0">Inactivo</option>
                                 </select>
                             </div>
 

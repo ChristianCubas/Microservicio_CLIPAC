@@ -45,7 +45,7 @@ public class ServiceTrabajador implements TrabajadorService {
             trabajador_actualizar.setContrasenia(trabajador.getContrasenia());
             trabajador_actualizar.setEstado(trabajador.getEstado());
 
-            trabajadorRepository.save(trabajador);
+            trabajadorRepository.save(trabajador_actualizar);
             return ResponseEntity.ok("Trabajador actualizado correctamente");
         }
 
@@ -62,6 +62,18 @@ public class ServiceTrabajador implements TrabajadorService {
             if (trabajador.getEmail().equals(email) && trabajador.getContrasenia().equals(contrasenia)){
                 return trabajador;
             }
+        }
+
+        return null;
+    }
+
+    public ResponseEntity<String> darBajaTrabajador(Long id){
+        Optional<Trabajador> trabajador = trabajadorRepository.findById(id);
+        if (trabajador.isPresent()){
+            Trabajador trabajador_actualizar = trabajador.get();
+            trabajador_actualizar.setEstado(0);
+            trabajadorRepository.save(trabajador_actualizar);
+            return ResponseEntity.ok("Trabajador dado de baja exitosamente");
         }
 
         return null;

@@ -26,35 +26,40 @@ public class Trabajador {
     @JoinColumn(name = "id_tipo_trabajador", nullable = false)
     private Tipo_trabajador tipoTrabajador;
 
-    @Column(nullable = false)
+    @Column(name = "nro_documento",nullable = false)
     private String nroDocumento;
 
-    @Column(nullable = false)
+    @Column(name = "nombres",nullable = false)
     private String nombres;
 
-    @Column(nullable = false)
+    @Column(name = "apellidos",nullable = false)
     private String apellidos;
 
-    @Column(nullable = false)
+    @Column(name = "telefono",nullable = false)
     private String telefono;
 
-    @Column(nullable = false)
+    @Column(name = "email",nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "direccion",nullable = false)
     private String direccion;
 
-    @Column(nullable = true)
+    @Column(name = "colegiatura",nullable = true)
     private String colegiatura;
 
-    @Column(nullable = false)
+    @Column(name = "contrasenia",nullable = false)
     private String contrasenia;
 
-    @Column(nullable = false)
+    @Column(name = "estado",nullable = false)
     private Integer estado;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -12,4 +12,5 @@ public interface TrabajadorService {
     public ResponseEntity<String> actualizarTrabajador(Long id_trabajador, Trabajador trabajador);
     public ResponseEntity<String> eliminarTrabajador(Long id_trabajador);
     public Trabajador logearTrabajador(String email, String contrasenia);
+    public ResponseEntity<String> darBajaTrabajador(Long id);
 }

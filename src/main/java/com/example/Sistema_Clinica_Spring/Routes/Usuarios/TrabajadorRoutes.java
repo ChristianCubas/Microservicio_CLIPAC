@@ -90,11 +90,9 @@ public class TrabajadorRoutes {
     @GetMapping("/trabajadores/baja/{id}")
     public String bajaTrabajador(@PathVariable Long id) {
 
-        Trabajador t = serviceTrabajador.obtenerTrabajador(id);
-        t.setEstado(0);
-        serviceTrabajador.actualizarTrabajador(id, t);
-
+        serviceTrabajador.darBajaTrabajador(id);
         return "redirect:/trabajadores";
+
     }
 
     @GetMapping("/trabajadores/eliminar/{id}")
