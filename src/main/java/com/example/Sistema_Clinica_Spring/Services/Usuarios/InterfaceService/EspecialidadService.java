@@ -10,5 +10,6 @@ public interface EspecialidadService {
     public Especialidad obtenerEspecialidad(long id_especialidad);
     public ResponseEntity<String> crearEspecialidad(Especialidad especialidad);
     public ResponseEntity<String> actualizarEspecialidad(Long id_especialidad, Especialidad cambios);
+    public ResponseEntity<String> darBajaEspecialidad(Long id_especialidad);
     public ResponseEntity<String> eliminarEspecialidad(Long id_especialidad);
 }

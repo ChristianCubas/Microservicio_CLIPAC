@@ -43,6 +43,19 @@ public class ServiceEspecialidad implements EspecialidadService {
         return null;
     }
 
+    public ResponseEntity<String> darBajaEspecialidad(Long id_especialidad){
+        Optional<Especialidad> especialidad = especialidadRepository.findById(id_especialidad);
+
+        if (especialidad.isPresent()){
+            Especialidad especialidad_actualizar = especialidad.get();
+            especialidad_actualizar.setEstado(0);
+            especialidadRepository.save(especialidad_actualizar);
+            return ResponseEntity.ok("Especialidad dada de baja exitosamente");
+        }
+
+        return null;
+    }
+
     public ResponseEntity<String> eliminarEspecialidad(Long id_especialidad){
         especialidadRepository.deleteById(id_especialidad);
         return ResponseEntity.ok("Especialidad eliminada");
