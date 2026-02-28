@@ -48,6 +48,21 @@ public class ServiceConsultorio implements ConsultorioService {
         return null;
     }
 
+    public ResponseEntity<String> darBajaConsultorio(Long id_consultorio){
+        Optional<Consultorio> consultorio_obtenido = consultorioRepository.findById(id_consultorio);
+
+        if (consultorio_obtenido.isPresent()){
+            Consultorio consultorioActualizar = consultorio_obtenido.get();
+
+            consultorioActualizar.setEstado(0);
+
+            consultorioRepository.save(consultorioActualizar);
+            return ResponseEntity.ok("Consultorio actualizado exitosamente");
+        }
+
+        return null;
+    }
+
     public ResponseEntity<String> eliminarConsultorio(Long id_consultorio){
         consultorioRepository.deleteById(id_consultorio);
         return ResponseEntity.ok("Consultorio eliminado exitosamente");
