@@ -50,6 +50,21 @@ public class ServiceMedicamento implements MedicamentoService {
         return null;
     }
 
+    public ResponseEntity<String> darBajaMedicamento(Long id_medicamento){
+        Optional<Medicamento> medicamento_recibido = medicamentoRepository.findById(id_medicamento);
+
+        if (medicamento_recibido.isPresent()){
+            Medicamento medicamento_actualizar = medicamento_recibido.get();
+
+            medicamento_actualizar.setEstado(0);
+
+            medicamentoRepository.save(medicamento_actualizar);
+            return ResponseEntity.ok("Medicamento dado de baja exitosamente");
+        }
+
+        return null;
+    }
+
     public ResponseEntity<String> eliminarMedicamento(Long id_medicamento){
         medicamentoRepository.deleteById(id_medicamento);
         return ResponseEntity.ok("Medicamento eliminado exitosamente");

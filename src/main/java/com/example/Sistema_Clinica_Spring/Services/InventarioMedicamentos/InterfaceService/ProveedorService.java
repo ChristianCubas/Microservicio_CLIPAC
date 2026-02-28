@@ -10,5 +10,6 @@ public interface ProveedorService {
     public Proveedor obtenerProveedor(Long id_proveedor);
     public ResponseEntity<String> crearProveedor(Proveedor proveedor);
     public ResponseEntity<String> actualizarProveedor(Long id_proveedor,Proveedor proveedor);
+    public ResponseEntity<String> darBajaProveedor(Long id_proveedor);
     public ResponseEntity<String> eliminarProveedor(Long id_proveedor);
 }

@@ -5,10 +5,12 @@ import com.example.Sistema_Clinica_Spring.Repository.InventarioMedicamentos.Prov
 import com.example.Sistema_Clinica_Spring.Services.InventarioMedicamentos.InterfaceService.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ServiceProveedor implements ProveedorService {
     @Autowired
     ProveedorRepository proveedorRepository;
@@ -43,6 +45,21 @@ public class ServiceProveedor implements ProveedorService {
             proveedorRepository.save(proveedorActualizado);
 
             return ResponseEntity.ok("Proveedor actualizado exitosamente");
+        }
+
+        return null;
+    }
+
+    public ResponseEntity<String> darBajaProveedor(Long id_proveedor){
+        Optional<Proveedor> proveedor_encontrado = proveedorRepository.findById(id_proveedor);
+        if (proveedor_encontrado.isPresent()){
+            Proveedor proveedorActualizado = proveedor_encontrado.get();
+
+            proveedorActualizado.setEstado(0);
+
+            proveedorRepository.save(proveedorActualizado);
+
+            return ResponseEntity.ok("Proveedor dado de baja exitosamente");
         }
 
         return null;

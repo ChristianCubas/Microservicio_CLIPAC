@@ -14,33 +14,34 @@ public class Proveedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_proveedor")
     @Getter @Setter
-    private Long idProveedor;
+    private Long id_proveedor;
 
-    @Column(nullable = false)
+    @Column(name = "razonSocial",nullable = false)
     @Getter @Setter
     private String razonSocial;
 
-    @Column(nullable = false)
+    @Column(name = "nroRuc",nullable = false)
     @Getter @Setter
     private String nroRuc;
 
-    @Column(nullable = false)
+    @Column(name = "telefono",nullable = false)
     @Getter @Setter
     private String telefono;
 
-    @Column(nullable = false)
+    @Column(name = "correo",nullable = false)
     @Getter @Setter
     private String correo;
 
-    @Column(nullable = false)
+    @Column(name = "direccion",nullable = false)
     @Getter @Setter
     private String direccion;
 
     @Column(nullable = false)
     private String cuentaBancaria;
 
-    @Column(nullable = false)
+    @Column(name = "estado", nullable = false)
     private Integer estado;
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
