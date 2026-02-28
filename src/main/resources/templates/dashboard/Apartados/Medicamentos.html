@@ -57,14 +57,14 @@
         </thead>
         <tbody>
         <tr th:each="med : ${medicamentos}">
-          <td th:text="${med.idMedicamento}"></td>
+          <td th:text="${med.id_medicamento}"></td>
           <td th:text="${med.nombre}"></td>
           <td th:text="${med.descripcion}"></td>
           <td th:text="${med.tipoMedicamento.nombre}"></td>
           <td th:text="${#numbers.formatDecimal(med.precio,1,2)}"></td>
           <td th:text="${med.stock}"></td>
-          <td th:text="${med.fechaExpiracion}"></td>
-          <td th:text="${med.proveedor.nombre}"></td>
+          <td th:text="${med.fecha_expiracion}"></td>
+          <td th:text="${med.proveedor.razon_social}"></td>
 
           <td>
             <span class="badge"
@@ -74,17 +74,17 @@
           </td>
 
           <td>
-            <a th:href="@{/medicamentos/editar/{id}(id=${med.idMedicamento})}"
+            <a th:href="@{/medicamentos/editar/{id}(id=${med.id_medicamento})}"
                class="btn btn-sm btn-warning btn-accion">
               <i class="fas fa-edit"></i>
             </a>
 
-            <a th:href="@{/medicamentos/baja/{id}(id=${med.idMedicamento})}"
+            <a th:href="@{/medicamentos/baja/{id}(id=${med.id_medicamento})}"
                class="btn btn-sm btn-secondary btn-accion">
               <i class="fas fa-ban"></i>
             </a>
 
-            <a th:href="@{/medicamentos/eliminar/{id}(id=${med.idMedicamento})}"
+            <a th:href="@{/medicamentos/eliminar/{id}(id=${med.id_medicamento})}"
                class="btn btn-sm btn-danger btn-accion"
                onclick="return confirm('¿Seguro que deseas eliminar este medicamento?')">
               <i class="fas fa-trash"></i>

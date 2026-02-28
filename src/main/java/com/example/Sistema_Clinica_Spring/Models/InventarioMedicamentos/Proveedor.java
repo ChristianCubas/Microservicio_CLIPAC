@@ -18,9 +18,9 @@ public class Proveedor {
     @Getter @Setter
     private Long id_proveedor;
 
-    @Column(name = "razonSocial",nullable = false)
+    @Column(name = "razon_social",nullable = false)
     @Getter @Setter
-    private String razonSocial;
+    private String razon_social;
 
     @Column(name = "nroRuc",nullable = false)
     @Getter @Setter

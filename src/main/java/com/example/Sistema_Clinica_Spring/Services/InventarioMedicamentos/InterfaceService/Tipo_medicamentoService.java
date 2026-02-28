@@ -10,5 +10,6 @@ public interface Tipo_medicamentoService {
     public Tipo_medicamento obtenerTipoMedicamento(Long id_tipo_medicamento);
     public ResponseEntity<String> crearTipoMedicamento(Tipo_medicamento tipo_medicamento);
     public ResponseEntity<String> actualizarMedicamento(Long id_tipo_medicamento, Tipo_medicamento tipo_medicamento);
+    public ResponseEntity<String> darBajaTipoMedicamento(Long id_tipo_medicamento);
     public ResponseEntity<String> eliminarMedicamento(Long id_tipo_medicamento);
 }

@@ -45,6 +45,20 @@ public class Service_tipo_medicamento implements Tipo_medicamentoService {
         return null;
     }
 
+    public ResponseEntity<String> darBajaTipoMedicamento(Long id_tipo_medicamento){
+        Optional<Tipo_medicamento> tipo_medicamento_recibido = tipoMedicamentoRepository.findById(id_tipo_medicamento);
+
+        if (tipo_medicamento_recibido.isPresent()){
+            Tipo_medicamento tipmed = tipo_medicamento_recibido.get();
+            tipmed.setEstado(0);
+            tipoMedicamentoRepository.save(tipmed);
+
+            return ResponseEntity.ok("Tipo medicamento dado de baja exitosamente");
+        }
+
+        return null;
+    }
+
     public ResponseEntity<String> eliminarMedicamento(Long id_tipo_medicamento){
         tipoMedicamentoRepository.deleteById(id_tipo_medicamento);
         return ResponseEntity.ok("Tipo medicamento eliminado exitosamente");

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <title>Gestión de Pacientes</title>
+
+  <style>
+    /* Ajustes rápidos de badges */
+    .badge-activo { background-color: #198754; }
+    .badge-inactivo { background-color: #dc3545; }
+
+    /* Botones de acción */
+    .btn-accion { margin-right: 5px; }
+  </style>
+</head>
+<body>
+
+<div th:replace="~{dashboard-layout :: dashboardLayout(${titulo}, ~{::contenido})}">
+
+  <div th:fragment="contenido" class="container py-5">
+
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+
+        <div class="card shadow-lg border-0 rounded-4">
+
+          <!-- Header -->
+          <div class="card-header bg-primary text-white rounded-top-4">
+            <h4 class="mb-0">
+              <i class="fa-solid fa-tablets"></i>
+              <span th:text="${titulo}"></span>
+            </h4>
+          </div>
+
+          <div class="card-body p-4">
+
+            <form th:action="@{${accion}}"
+                  th:object="${tipoMedicamento}"
+                  method="post">
+
+              <!-- ID -->
+              <input type="hidden" th:field="*{id_tipo_medicamento}">
+
+              <!-- Razon Social -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">
+                  Nombre
+                </label>
+                <input type="text"
+                       class="form-control form-control-lg"
+                       th:field="*{nombre}"
+                       required>
+              </div>
+
+              <!-- Estado -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">
+                  Estado
+                </label>
+                <select class="form-select form-select-lg"
+                        th:field="*{estado}">
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+              </div>
+
+              <!-- Botones -->
+              <div class="d-flex justify-content-end gap-2">
+                <a th:href="@{/tipos_medicamentos}" class="btn btn-secondary px-4">
+                  Cancelar
+                </a>
+
+                <button type="submit"
+                        class="btn btn-success px-4"
+                        th:text="${botonTexto}">
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

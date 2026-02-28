@@ -8,24 +8,25 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "medicamento")
-@Data
+@Getter
+@Setter
 public class Medicamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_medicamento")
     @Getter @Setter
-    private Long idMedicamento;
+    private Long id_medicamento;
 
-    @Column(nullable = false)
+    @Column(name = "nombre",nullable = false)
     @Getter @Setter
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "descripcion",nullable = false)
     @Getter @Setter
     private String descripcion;
 
@@ -34,17 +35,17 @@ public class Medicamento {
     @Getter @Setter
     private Tipo_medicamento tipoMedicamento;
 
-    @Column(nullable = false)
+    @Column(name = "precio",nullable = false)
     @Getter @Setter
     private BigDecimal precio;
 
-    @Column(nullable = false)
+    @Column(name = "estado",nullable = false)
     @Getter @Setter
     private Integer estado;
 
-    @Column(nullable = false)
+    @Column(name = "fecha_expiracion",nullable = false)
     @Getter @Setter
-    private LocalDate fechaExpiracion;
+    private LocalDate fecha_expiracion;
 
     @Column(nullable = false)
     @Getter @Setter
@@ -70,5 +71,5 @@ public class Medicamento {
             inverseJoinColumns = @JoinColumn(name = "id_medicamento")
     )
     @Getter @Setter
-    private ArrayList<Medicamento> listadoMedicamentos;
+    private List<Medicamento> listadoMedicamentos;
 }

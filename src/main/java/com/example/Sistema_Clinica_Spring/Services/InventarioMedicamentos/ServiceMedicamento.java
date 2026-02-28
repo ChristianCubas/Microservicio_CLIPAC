@@ -37,7 +37,7 @@ public class ServiceMedicamento implements MedicamentoService {
             medicamento_actualizar.setTipoMedicamento(medicamento.getTipoMedicamento());
             medicamento_actualizar.setNombre(medicamento.getNombre());
             medicamento_actualizar.setDescripcion(medicamento.getDescripcion());
-            medicamento_actualizar.setFechaExpiracion(medicamento.getFechaExpiracion());
+            medicamento_actualizar.setFecha_expiracion(medicamento.getFecha_expiracion());
             medicamento_actualizar.setPrecio(medicamento.getPrecio());
             medicamento_actualizar.setProveedor(medicamento.getProveedor());
             medicamento_actualizar.setStock(medicamento.getStock());

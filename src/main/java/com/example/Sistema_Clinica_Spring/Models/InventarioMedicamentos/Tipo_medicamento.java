@@ -14,15 +14,16 @@ public class Tipo_medicamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tipo_medicamento")
     @Getter
     @Setter
-    private Long idTipoMedicamento;
+    private Long id_tipo_medicamento;
 
-    @Column(nullable = false)
+    @Column(name = "nombre",nullable = false)
     @Getter @Setter
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "estado",nullable = false)
     @Getter @Setter
     private Integer estado;
 

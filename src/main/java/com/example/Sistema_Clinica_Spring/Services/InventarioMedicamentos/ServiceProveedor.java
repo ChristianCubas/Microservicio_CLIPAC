@@ -34,7 +34,7 @@ public class ServiceProveedor implements ProveedorService {
         if (proveedor_encontrado.isPresent()){
             Proveedor proveedorActualizado = proveedor_encontrado.get();
 
-            proveedorActualizado.setRazonSocial(proveedor.getRazonSocial());
+            proveedorActualizado.setRazon_social(proveedor.getRazon_social());
             proveedorActualizado.setNroRuc(proveedor.getNroRuc());
             proveedorActualizado.setTelefono(proveedor.getTelefono());
             proveedorActualizado.setCorreo(proveedor.getCorreo());

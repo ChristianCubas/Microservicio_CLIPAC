@@ -23,7 +23,7 @@
 
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 th:text="${accion == 'nuevo'} ? 'Registrar Medicamento' : 'Actualizar Medicamento'"></h2>
+      <h2 th:text="@{${titulo}}"></h2>
 
       <a th:href="@{/medicamentos}" class="btn btn-secondary">
         <i class="fas fa-arrow-left"></i> Volver
@@ -34,12 +34,12 @@
     <div class="card shadow-sm">
       <div class="card-body">
 
-        <form th:action="@{/medicamentos/guardar}"
+        <form th:action="@{${accion}}"
               th:object="${medicamento}"
               method="post">
 
           <!-- ID oculto -->
-          <input type="hidden" th:field="*{idMedicamento}"/>
+          <input type="hidden" th:field="*{id_medicamento}"/>
 
           <div class="row">
 
@@ -88,7 +88,7 @@
               <label class="form-label">Fecha de Expiración</label>
               <input type="date"
                      class="form-control"
-                     th:field="*{fechaExpiracion}"
+                     th:field="*{fecha_expiracion}"
                      required>
             </div>
 
@@ -110,7 +110,7 @@
                       required>
                 <option value="">Seleccione</option>
                 <option th:each="tipo : ${tipos}"
-                        th:value="${tipo.idTipoMedicamento}"
+                        th:value="${tipo.id_tipo_medicamento}"
                         th:text="${tipo.nombre}">
                 </option>
               </select>
@@ -124,8 +124,8 @@
                       required>
                 <option value="">Seleccione</option>
                 <option th:each="prov : ${proveedores}"
-                        th:value="${prov.idProveedor}"
-                        th:text="${prov.nombre}">
+                        th:value="${prov.id_proveedor}"
+                        th:text="${prov.razon_social}">
                 </option>
               </select>
             </div>

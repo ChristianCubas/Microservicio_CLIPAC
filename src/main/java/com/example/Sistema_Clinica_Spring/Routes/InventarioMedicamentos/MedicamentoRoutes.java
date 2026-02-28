@@ -35,7 +35,8 @@ public class MedicamentoRoutes {
         model.addAttribute("medicamento", new Medicamento());
         model.addAttribute("tipos", serviceTipoMedicamento.listadoTipoMedicamento());
         model.addAttribute("proveedores", serviceProveedor.listarProveedores());
-        model.addAttribute("accion", "nuevo");
+        model.addAttribute("titulo", "Nuevo medicamento");
+        model.addAttribute("accion", "/medicamentos/guardar");
         return "dashboard/CRUDs/FormMedicamento";
     }
 
@@ -51,19 +52,26 @@ public class MedicamentoRoutes {
         model.addAttribute("medicamento", medicamento);
         model.addAttribute("tipos", serviceTipoMedicamento.listadoTipoMedicamento());
         model.addAttribute("proveedores", serviceProveedor.listarProveedores());
-        model.addAttribute("accion", "editar");
+        model.addAttribute("titulo", "Editar medicamento");
+        model.addAttribute("accion", "/medicamentos/actualizar/"+id);
         return "dashboard/CRUDs/FormMedicamento";
     }
 
-    @GetMapping("/medicamentos/eliminar/{id}")
-    public String eliminarMedicamento(@PathVariable Long id){
-        serviceMedicamento.eliminarMedicamento(id);
+    @PostMapping("/medicamentos/actualizar/{id}")
+    public String actualizarMedicamento(@PathVariable Long id, @ModelAttribute Medicamento medicamento){
+        serviceMedicamento.actualizarMedicamento(id,medicamento);
         return "redirect:/medicamentos";
     }
 
     @GetMapping("/medicamentos/baja/{id}")
     public String bajaMedicamento(@PathVariable Long id){
         serviceMedicamento.darBajaMedicamento(id);
+        return "redirect:/medicamentos";
+    }
+
+    @GetMapping("/medicamentos/eliminar/{id}")
+    public String eliminarMedicamento(@PathVariable Long id){
+        serviceMedicamento.eliminarMedicamento(id);
         return "redirect:/medicamentos";
     }
 }

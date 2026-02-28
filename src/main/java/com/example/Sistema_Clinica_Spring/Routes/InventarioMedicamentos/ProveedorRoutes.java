@@ -67,7 +67,7 @@ public class ProveedorRoutes {
     @GetMapping("/proveedores/eliminar/{id}")
     public String eliminarProveedor(@PathVariable Long id){
         serviceProveedor.eliminarProveedor(id);
-        return "redirect:/proveedores";
+        return "redirect:/proveedores"; 
     }
 
 }
