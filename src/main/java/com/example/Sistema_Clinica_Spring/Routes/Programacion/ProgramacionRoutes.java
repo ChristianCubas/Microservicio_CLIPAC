@@ -36,9 +36,6 @@ public class ProgramacionRoutes {
     @Autowired
     private ServiceEspecialidad serviceEspecialidad;
 
-    // =========================================
-    // VISTA PRINCIPAL
-    // =========================================
     @GetMapping
     public String vistaProgramacionSemanal(Model model) {
 
@@ -53,9 +50,6 @@ public class ProgramacionRoutes {
         return "dashboard/Apartados/Programaciones";
     }
 
-    // =========================================
-    // FILTRAR
-    // =========================================
     @GetMapping("/filtrar")
     public String filtrarProgramacion(
             @RequestParam(required = false) Long especialidadId,
@@ -77,12 +71,11 @@ public class ProgramacionRoutes {
         return "dashboard/Apartados/Programaciones";
     }
 
-    // =========================================
-    // FORM NUEVA
-    // =========================================
     @GetMapping("/nueva")
     public String nuevaProgramacion(Model model) {
 
+        model.addAttribute("titulo","Nueva programacion");
+        model.addAttribute("accion","/programaciones/guardar");
         model.addAttribute("trabajadores", serviceTrabajador.listarTrabajadores());
         model.addAttribute("consultorios", serviceConsultorio.listarConsultorios());
         model.addAttribute("horarios", serviceHorario.listarHorarios());
@@ -90,9 +83,6 @@ public class ProgramacionRoutes {
         return "dashboard/CRUDs/FormProgramacion";
     }
 
-    // =========================================
-    // GUARDAR
-    // =========================================
     @PostMapping("/guardar")
     public String guardarProgramacion(
             @RequestParam Long trabajadorId,
@@ -115,11 +105,28 @@ public class ProgramacionRoutes {
         return "redirect:/programaciones";
     }
 
-    // =========================================
-    // ELIMINAR
-    // =========================================
+    @GetMapping("/editar/{id}")
+    public String editarProgramacion(@PathVariable Long id, Model model){
+        Programacion programacion = serviceProgramacion.obtenerProgramacion(id);
+
+        model.addAttribute("programacion",programacion);
+        model.addAttribute("titulo","Editar programacion");
+        model.addAttribute("accion","/programaciones/actualizar/"+id);
+        model.addAttribute("trabajadores", serviceTrabajador.listarTrabajadores());
+        model.addAttribute("consultorios", serviceConsultorio.listarConsultorios());
+        model.addAttribute("horarios", serviceHorario.listarHorarios());
+
+        return "dashboard/CRUDs/FormProgramacion";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarProgramacion(@PathVariable Long id, @ModelAttribute Programacion programacion){
+        serviceProgramacion.actualizarProgramacion(id,programacion);
+        return "redirect:/programaciones";
+    }
+
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Long id) {
+    public String eliminarProgramacion(@PathVariable Long id) {
         serviceProgramacion.eliminarProgramacion(id);
         return "redirect:/programaciones";
     }

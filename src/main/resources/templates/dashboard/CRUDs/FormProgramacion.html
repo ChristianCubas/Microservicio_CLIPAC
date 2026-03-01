@@ -25,19 +25,21 @@
       <div class="card shadow">
         <div class="card-header bg-primary text-white">
           <h5 class="mb-0">
-            <i class="fas fa-calendar-plus"></i> Crear Programación
+            <i class="fas fa-calendar-plus"></i>
+            <small th:text="@{${titulo}}"></small>
           </h5>
         </div>
 
         <div class="card-body">
 
-          <form th:action="@{/programaciones/guardar}" method="post">
+          <form th:action="@{${accion}}" method="post" th:object="${programacion}">
 
             <div class="row g-3">
 
               <div class="col-md-6">
                 <label class="form-label">Trabajador</label>
-                <select name="trabajadorId" class="form-select" required>
+                <select name="trabajadorId" class="form-select" required
+                th:field="*{trabajador}">
                   <option value="">Seleccione</option>
                   <option th:each="t : ${trabajadores}"
                           th:value="${t.id_trabajador}"
@@ -48,7 +50,8 @@
 
               <div class="col-md-6">
                 <label class="form-label">Consultorio</label>
-                <select name="consultorioId" class="form-select" required>
+                <select name="consultorioId" class="form-select" required
+                        th:field="*{consultorio}">
                   <option value="">Seleccione</option>
                   <option th:each="c : ${consultorios}"
                           th:value="${c.id_consultorio}"
@@ -59,7 +62,8 @@
 
               <div class="col-md-6">
                 <label class="form-label">Horario</label>
-                <select name="horarioId" class="form-select" required>
+                <select name="horarioId" class="form-select" required
+                        th:field="*{horario}">
                   <option value="">Seleccione</option>
                   <option th:each="h : ${horarios}"
                           th:value="${h.id_horario}"
@@ -70,18 +74,19 @@
 
               <div class="col-md-6">
                 <label class="form-label">Fecha</label>
-                <input type="date" name="fecha" class="form-control" required>
+                <input type="date" name="fecha" class="form-control" th:field="*{fecha}" required>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label">Día (1=Lun ... 7=Dom)</label>
                 <input type="number" name="dia" min="1" max="7"
-                       class="form-control" required>
+                       class="form-control" th:field="*{dia}" required>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label">Estado</label>
-                <select name="estado" class="form-select">
+                <select name="estado" class="form-select"
+                        th:field="*{estado}">
                   <option value="1">Activo</option>
                   <option value="0">Inactivo</option>
                 </select>

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface ProgramacionService {
     public List<Programacion> listarProgramaciones();

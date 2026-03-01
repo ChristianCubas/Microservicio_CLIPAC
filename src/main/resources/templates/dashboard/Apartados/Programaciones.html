@@ -114,14 +114,15 @@
 
                             <td th:each="dia : ${#numbers.sequence(1,7)}">
 
-                                <div th:each="prog : ${programaciones}"
+                                <button th:each="prog : ${programaciones}"
                                      th:if="${prog.dia == dia and prog.horario.id_horario == horario.id_horario}"
-                                     class="bg-primary text-white p-2 rounded">
+                                     class="botonProgramacion w-100 bg-primary text-white p-2 rounded border-0">
 
+                                    <small th:text="${prog.id_programacion}"></small><br>
                                     <small th:text="${prog.trabajador.nombres}"></small><br>
                                     <small th:text="${prog.consultorio.nombre}"></small>
 
-                                </div>
+                                </button>
 
                             </td>
                         </tr>
@@ -171,6 +172,57 @@
             lengthMenu: [5, 10, 25, 50]
         });
 
+    });
+</script>
+<script>
+    function abrirPopupOperacion(id) {
+        // Crear modal dinámicamente
+        let modalHtml = `
+        <div class="modal fade" id="modalOperacionDynamic" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">¿Qué operación desea realizar?</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <a href="/programaciones/editar/${id}" id="btnActualizar" class="btn btn-primary btn-lg me-2">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </a>
+                        <a href="/programaciones/eliminar/${id}" id="btnEliminar" class="btn btn-danger btn-lg">
+                            <i class="fa-solid fa-trash"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        // Remover modal anterior si existe
+        $('#modalOperacionDynamic').remove();
+
+        // Agregar al body
+        $('body').append(modalHtml);
+
+        // Mostrar modal
+        var modal = new bootstrap.Modal(document.getElementById('modalOperacionDynamic'));
+        modal.show();
+
+        // Configurar botones
+        $('#btnComprar').attr('href', `/comprar/${id}`);
+        $('#btnVender').attr('href', `/vender/${id}`);
+    }
+
+    // CORREGIDO: Recuperar ID del small y asignar evento
+    document.addEventListener('DOMContentLoaded', function() {
+        let botones = document.getElementsByClassName("botonProgramacion");
+        for(let boton of botones) {
+            boton.addEventListener('click', function() {
+                // RECUPERAR ID del primer small
+                const smallId = this.querySelector('small');
+                const id = smallId.textContent.trim();
+                abrirPopupOperacion(id);
+            });
+        }
     });
 </script>
 </body>

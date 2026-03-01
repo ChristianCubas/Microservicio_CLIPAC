@@ -48,13 +48,14 @@ public class ServiceProgramacion implements ProgramacionService {
     }
 
     public ResponseEntity<String> actualizarProgramacion(Long id_programacion, Programacion programacion){
-        Optional<Programacion> programacon_encontrada = programacionRepository.findById(id_programacion);
+        Optional<Programacion> programacion_encontrada = programacionRepository.findById(id_programacion);
 
-        if (programacon_encontrada.isPresent()){
-            Programacion programacionActualizar = programacon_encontrada.get();
+        if (programacion_encontrada.isPresent()){
+            Programacion programacionActualizar = programacion_encontrada.get();
             programacionActualizar.setDia(programacion.getDia());
             programacionActualizar.setFecha(programacion.getFecha());
             programacionActualizar.setEstado(programacion.getEstado());
+            programacionActualizar.setHorario(programacion.getHorario());
 
             programacionRepository.save(programacionActualizar);
             return ResponseEntity.ok("Programacion actualizada exitosamente");
@@ -115,5 +116,4 @@ public class ServiceProgramacion implements ProgramacionService {
 
         return ResponseEntity.ok("Programación creada correctamente");
     }
-
 }
