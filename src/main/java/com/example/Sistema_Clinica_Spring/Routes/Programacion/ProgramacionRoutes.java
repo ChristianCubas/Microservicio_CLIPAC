@@ -76,6 +76,7 @@ public class ProgramacionRoutes {
 
         model.addAttribute("titulo","Nueva programacion");
         model.addAttribute("accion","/programaciones/guardar");
+        model.addAttribute("programacion",new Programacion());
         model.addAttribute("trabajadores", serviceTrabajador.listarTrabajadores());
         model.addAttribute("consultorios", serviceConsultorio.listarConsultorios());
         model.addAttribute("horarios", serviceHorario.listarHorarios());
@@ -85,23 +86,12 @@ public class ProgramacionRoutes {
 
     @PostMapping("/guardar")
     public String guardarProgramacion(
-            @RequestParam Long trabajadorId,
-            @RequestParam Long consultorioId,
-            @RequestParam Long horarioId,
-            @RequestParam LocalDate fecha,
-            @RequestParam Integer dia,
-            @RequestParam Integer estado,
+            @ModelAttribute Programacion programacion,
             RedirectAttributes redirectAttributes) {
 
-        ResponseEntity<String> respuesta = serviceProgramacion.crearProgramacion(
-                trabajadorId, consultorioId, horarioId, fecha, dia, estado);
+        serviceProgramacion.crearProgramacion(programacion);
 
-        if (respuesta.getStatusCode().isError()) {
-            redirectAttributes.addFlashAttribute("error", respuesta.getBody());
-        } else {
-            redirectAttributes.addFlashAttribute("success", respuesta.getBody());
-        }
-
+        redirectAttributes.addFlashAttribute("success", "Programación guardada correctamente");
         return "redirect:/programaciones";
     }
 

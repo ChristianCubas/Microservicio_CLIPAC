@@ -14,9 +14,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "transaccion")
-@Data
+@Getter
+@Setter
 public class Transaccion {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -26,16 +26,6 @@ public class Transaccion {
     @Column(nullable = false)
     @Getter @Setter
     private Long idPaciente;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_trabajador_ventanilla", nullable = false)
-    @Getter @Setter
-    private Trabajador trabajadorVentanilla;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_trabajador_atencion", nullable = false)
-    @Getter @Setter
-    private Trabajador trabajadorAtencion;
 
     @Column(nullable = false)
     @Getter @Setter
@@ -61,15 +51,15 @@ public class Transaccion {
     @Getter @Setter
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Getter @Setter
-    private List<Cita> listadoCitas;
+    private Cita cita;
 
-    @OneToMany(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Getter @Setter
-    private List<Examen> listadoExamenes;
+    private Examen examen;
 
-    @OneToMany(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "transaccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Getter @Setter
-    private List<Venta> listadoVentas;
+    private Venta venta;
 }

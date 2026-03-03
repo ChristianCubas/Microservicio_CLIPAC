@@ -32,8 +32,4 @@ public class Horario {
     @Column(name = "estado", nullable = false)
     @Getter @Setter
     private int estado;
-
-    @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Getter @Setter
-    private List<Cita> listadoCitas;
 }

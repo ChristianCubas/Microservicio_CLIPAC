@@ -1,10 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar cita</title>
+    <title>Reservar Cita Médica</title>
+    <!-- jQuery primero, luego Toastr -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #e6f2ff, #f4f6f9);
+        }
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .form-group select:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+        .required { color: #e74c3c; }
+        .btn-primary {
+            background: #003de2;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .loading {
+            color: #667eea;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .form-section { padding: 20px; margin: 10px; }
+        }
+    </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="/imgs/clipac.png" alt="Logo Clínica">
+        </div>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="#especialidades">Especialidades</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="/pacientes/nuevo">Regístrate</a>
+            <a href="/iniciarSesion">Iniciar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== SECTION ===== -->
+<section class="form-section my-5">
+    <h2>📅 Reservar Cita Médica</h2>
+
+    <!-- FORM SIN th:object ni th:field, solo params -->
+    <form id="formCita" action="/citas/guardar" method="post">
+
+        <!-- FILTRO 1: ESPECIALIDAD -->
+        <div class="form-group">
+            <label>Especialidad <span class="required">*</span></label>
+            <select id="especialidad" onchange="filtrarMedicos()" required>
+                <option value="">Selecciona una especialidad</option>
+            </select>
+        </div>
+
+        <!-- FILTRO 2: MÉDICO -->
+        <div class="form-group">
+            <label>Médico <span class="required">*</span></label>
+            <select id="medico" name="trabajadorId" onchange="filtrarProgramaciones()" required disabled>
+                <option value="">Primero selecciona especialidad</option>
+            </select>
+        </div>
+
+        <!-- FILTRO 3: FECHA + HORARIO -->
+        <div class="form-group">
+            <label>Fecha y Horario <span class="required">*</span></label>
+            <input type="hidden" id="programacionId" name="programacionId" required>
+            <input type="text" id="programacionTexto" class="form-control" placeholder="Selecciona fecha/horario" readonly>
+        </div>
+
+        <!-- 🔥 MODALIDAD - USUARIO ELIGE -->
+        <div class="form-group">
+            <label>Modalidad <span class="required">*</span></label>
+            <select id="modalidad" name="modalidad" class="form-control" required>
+                <option value="">Selecciona modalidad</option>
+                <option value="1">🏥 Presencial</option>
+                <option value="2">💻 Virtual</option>
+            </select>
+        </div>
+
+        <!-- TOTAL -->
+        <div class="form-group">
+            <label>Total S/</label>
+            <input type="number" step="0.01" value="50.00" readonly>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btnSubmit" disabled>Reservar Cita Ahora</button>
+    </form>
+</section>
+
+<script th:inline="javascript">
+    let horariosData = [[${horariosDisponibles}]];
+    let especialidades = {};
+
+    $(document).ready(function() {
+        console.log('Datos cargados:', horariosData.length, 'filas');
+        console.log('Datos:', horariosData);
+        inicializarFiltros();
+    });
+
+    function inicializarFiltros() {
+        if (horariosData.length === 0) {
+            console.warn('No hay horarios disponibles');
+            $('#especialidad').html('<option value="">No hay horarios disponibles</option>');
+            return;
+        }
+
+        horariosData.forEach(function(row) {
+            let [espId, espNombre, trId, trNombre, progId, fecha, hInicio, hFin, disponible] = row;
+            if (disponible == 1) {
+                if (!especialidades[espId]) {
+                    especialidades[espId] = { nombre: espNombre, medicos: {} };
+                }
+                if (!especialidades[espId].medicos[trId]) {
+                    especialidades[espId].medicos[trId] = { nombre: trNombre, programaciones: [] };
+                }
+                especialidades[espId].medicos[trId].programaciones.push({
+                    id: progId, fecha: fecha, hora: hInicio + ' - ' + hFin
+                });
+            }
+        });
+
+        let html = '<option value="">Selecciona especialidad</option>';
+        Object.keys(especialidades).sort().forEach(function(espId) {
+            html += `<option value="${espId}">${especialidades[espId].nombre}</option>`;
+        });
+        $('#especialidad').html(html);
+    }
+
+    function filtrarMedicos() {
+        let espId = $('#especialidad').val();
+        $('#medico').prop('disabled', !espId).html('<option value="">Cargando médicos...</option>');
+        $('#programacionId').val('');
+        $('#programacionTexto').val('');
+        $('#btnSubmit').prop('disabled', true);
+
+        if (!espId || !especialidades[espId]) {
+            $('#medico').prop('disabled', true);
+            return;
+        }
+
+        let medicos = Object.keys(especialidades[espId].medicos).sort();
+        let html = '<option value="">Selecciona médico</option>';
+        medicos.forEach(function(trId) {
+            html += `<option value="${trId}">${especialidades[espId].medicos[trId].nombre}</option>`;
+        });
+        $('#medico').html(html).prop('disabled', false);
+    }
+
+    function filtrarProgramaciones() {
+        let espId = $('#especialidad').val();
+        let trId = $('#medico').val();
+
+        $('#programacionId').val('');
+        $('#programacionTexto').val('');
+        $('#btnSubmit').prop('disabled', true);
+
+        if (!espId || !trId || !especialidades[espId] || !especialidades[espId].medicos[trId]) {
+            console.warn('No hay datos para esta combinación');
+            return;
+        }
+
+        let programaciones = especialidades[espId].medicos[trId].programaciones;
+        console.log('Programaciones encontradas:', programaciones.length);
+
+        if (programaciones.length === 0) {
+            $('#programacionTexto').val('No hay horarios disponibles');
+            return;
+        }
+
+        programaciones.sort((a, b) => a.fecha.localeCompare(b.fecha) || a.hora.localeCompare(b.hora));
+
+        let html = '<option value="">Selecciona fecha/horario disponible</option>';
+        programaciones.forEach(function(prog) {
+            html += `<option value="${prog.id}">${prog.fecha} ${prog.hora}</option>`;
+        });
+
+        let tempSelect = $('<select>').html(html).on('change', function() {
+            let selectedId = $(this).val();
+            let selectedText = $(this).find('option:selected').text();
+            if (selectedId) {
+                $('#programacionId').val(selectedId);
+                $('#programacionTexto').val(selectedText);
+                $('#btnSubmit').prop('disabled', false);
+                console.log('Horario seleccionado:', selectedId);
+            } else {
+                $('#programacionId').val('');
+                $('#programacionTexto').val('');
+                $('#btnSubmit').prop('disabled', true);
+            }
+            $(this).remove();
+        });
+
+        $('#programacionTexto').after(tempSelect);
+    }
+
+    // Validar antes de enviar el formulario
+    $('#formCita').on('submit', function(e) {
+        let programacionId = $('#programacionId').val();
+        let trabajadorId = $('#medico').val();
+        let modalidad = $('#modalidad').val();
+
+        if (!programacionId || !trabajadorId || !modalidad) {
+            e.preventDefault();
+            toastr.error('Completa todos los campos');
+            return false;
+        }
+    });
+</script>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="footer-container">
+        <div>
+            <h4>Clínica del Pacífico</h4>
+            <p>Av. Principal 123 - Lima, Perú</p>
+            <p>Tel: (01) 123-4567</p>
+        </div>
+        <div>
+            <h4>Horario</h4>
+            <p>Lunes - Sábado</p>
+            <p>8:00 am - 8:00 pm</p>
+        </div>
+        <div>
+            <h4>Emergencias</h4>
+            <p>Disponible 24/7</p>
+        </div>
+    </div>
+    <p class="copyright">© 2026 Clínica del Pacífico - Todos los derechos reservados</p>
+</footer>
+
+<script th:if="${mensaje}">
+    $(document).ready(function() {
+        setTimeout(function() {
+            toastr.options = {
+                "positionClass": "toast-top-right",
+                "timeOut": "5000",
+                "progressBar": true
+            };
+            toastr.success('[[${mensaje}]]');
+        }, 100);
+    });
+</script>
+
+<script th:if="${error}">
+    $(document).ready(function() {
+        setTimeout(function() {
+            toastr.options = {
+                "positionClass": "toast-top-right",
+                "timeOut": "5000",
+                "progressBar": true,
+                "closeButton": true
+            };
+            toastr.error('[[${error}]]');
+        }, 100);
+    });
+</script>
 </body>
 </html>

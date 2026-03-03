@@ -17,7 +17,7 @@ public class Examen {
     @Setter
     private Long idExamen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_transaccion", nullable = false)
     @Getter @Setter
     private Transaccion transaccion;

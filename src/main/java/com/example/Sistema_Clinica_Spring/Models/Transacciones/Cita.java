@@ -2,6 +2,7 @@ package com.example.Sistema_Clinica_Spring.Models.Transacciones;
 
 import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Medicamento;
 import com.example.Sistema_Clinica_Spring.Models.Programacion.Horario;
+import com.example.Sistema_Clinica_Spring.Models.Programacion.Programacion;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -11,24 +12,21 @@ import java.util.List;
 
 @Entity
 @Table(name = "cita")
-@Data
+@Getter
+@Setter
 public class Cita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cita")
     @Getter
     @Setter
-    private Long idCita;
+    private Long id_cita;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_transaccion", nullable = false)
     @Getter @Setter
     private Transaccion transaccion;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_horario", nullable = false)
-    @Getter @Setter
-    private Horario horario;
 
     @Column(nullable = false)
     @Getter @Setter
@@ -46,4 +44,9 @@ public class Cita {
     )
     @Getter @Setter
     private List<Medicamento> listadoMedicamentos;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_programacion", nullable = false)
+    @Getter @Setter
+    private Programacion programacion;
 }

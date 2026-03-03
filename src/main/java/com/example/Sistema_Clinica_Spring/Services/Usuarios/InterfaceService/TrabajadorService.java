@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TrabajadorService {
     public List<Trabajador> listarTrabajadores();
+    public List<Trabajador> listarMedicos();
     public Trabajador obtenerTrabajador(Long id_trabajador);
     public ResponseEntity<String> crearTrabajador(Trabajador trabajador);
     public ResponseEntity<String> actualizarTrabajador(Long id_trabajador, Trabajador trabajador);

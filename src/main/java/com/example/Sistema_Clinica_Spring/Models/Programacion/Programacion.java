@@ -1,5 +1,6 @@
 package com.example.Sistema_Clinica_Spring.Models.Programacion;
 
+import com.example.Sistema_Clinica_Spring.Models.Transacciones.Cita;
 import com.example.Sistema_Clinica_Spring.Models.Usuarios.Trabajador;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "programacion")
@@ -48,4 +50,8 @@ public class Programacion {
     @JoinColumn(name = "id_horario", nullable = false)
     @Getter @Setter
     private Horario horario;
+
+    @OneToOne(mappedBy = "programacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Getter @Setter
+    private Cita cita;
 }

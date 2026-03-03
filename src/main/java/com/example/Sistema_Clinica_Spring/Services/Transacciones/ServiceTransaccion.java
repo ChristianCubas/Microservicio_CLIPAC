@@ -1,12 +1,18 @@
 package com.example.Sistema_Clinica_Spring.Services.Transacciones;
 
+import com.example.Sistema_Clinica_Spring.Models.Transacciones.Cita;
 import com.example.Sistema_Clinica_Spring.Models.Transacciones.Transaccion;
+import com.example.Sistema_Clinica_Spring.Models.Usuarios.Paciente;
+import com.example.Sistema_Clinica_Spring.Repository.Transacciones.CitaRepository;
 import com.example.Sistema_Clinica_Spring.Repository.Transacciones.TransaccionRepository;
 import com.example.Sistema_Clinica_Spring.Services.Transacciones.InterfaceService.TransaccionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +21,9 @@ public class ServiceTransaccion implements TransaccionService {
 
     @Autowired
     TransaccionRepository transaccionRepository;
+
+    @Autowired
+    ServiceCita serviceCita;
 
     public List<Transaccion> listarTransacciones(){
         return transaccionRepository.findAll();
@@ -25,9 +34,9 @@ public class ServiceTransaccion implements TransaccionService {
         return transaccionEncontrada.orElse(null);
     }
 
-    public ResponseEntity<String> crearTransaccion(Transaccion transaccion){
-        transaccionRepository.save(transaccion);
-        return ResponseEntity.ok("Transaccion registrada exitosamente");
+    public Transaccion crearTransaccion(Transaccion transaccion){
+        Transaccion transaccion_guardada = transaccionRepository.save(transaccion);
+        return transaccion_guardada;
     }
 
     public ResponseEntity<String> actualizarTransaccion(Long id_transaccion,Transaccion transaccion){

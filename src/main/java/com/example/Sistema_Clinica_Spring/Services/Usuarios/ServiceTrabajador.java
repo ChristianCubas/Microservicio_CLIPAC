@@ -1,5 +1,6 @@
 package com.example.Sistema_Clinica_Spring.Services.Usuarios;
 
+import com.example.Sistema_Clinica_Spring.Models.Usuarios.Tipo_trabajador;
 import com.example.Sistema_Clinica_Spring.Models.Usuarios.Trabajador;
 import com.example.Sistema_Clinica_Spring.Repository.Usuarios.TrabajadorRepository;
 import com.example.Sistema_Clinica_Spring.Services.Usuarios.InterfaceService.TrabajadorService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,19 @@ public class ServiceTrabajador implements TrabajadorService {
 
     public List<Trabajador> listarTrabajadores(){
         return trabajadorRepository.findAll();
+    }
+
+    public List<Trabajador> listarMedicos(){
+        List<Trabajador> medicos = new ArrayList<>();
+
+        for(Trabajador trabajador : trabajadorRepository.findAll()){
+            Tipo_trabajador tiptra = trabajador.getTipoTrabajador();
+            if (tiptra.getId_tipo_trabajador()==2){
+                medicos.add(trabajador);
+            }
+        }
+
+        return medicos;
     }
 
     public Trabajador obtenerTrabajador(Long id_trabajador){
@@ -44,6 +59,7 @@ public class ServiceTrabajador implements TrabajadorService {
             trabajador_actualizar.setTipoTrabajador(trabajador.getTipoTrabajador());
             trabajador_actualizar.setContrasenia(trabajador.getContrasenia());
             trabajador_actualizar.setEstado(trabajador.getEstado());
+            trabajador_actualizar.setEspecialidades(trabajador.getEspecialidades());
 
             trabajadorRepository.save(trabajador_actualizar);
             return ResponseEntity.ok("Trabajador actualizado correctamente");

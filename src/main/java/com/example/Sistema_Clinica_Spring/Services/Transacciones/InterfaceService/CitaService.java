@@ -11,4 +11,5 @@ public interface CitaService {
     public ResponseEntity<String> crearCita(Cita cita);
     public ResponseEntity<String> actualizarCita(Long id_cita,Cita cita);
     public ResponseEntity<String> eliminarCita(Long id_cita);
+    List<Object[]> obtenerHorariosDisponiblesPorEspecialidad();
 }

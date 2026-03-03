@@ -52,7 +52,7 @@ public class PacienteRoutes {
                 sesion.setAttribute("paciente", paciente);
                 model.addAttribute("usuario", paciente);
 
-                return "registrarCita";
+                return "redirect:/";
             }
 
             // Intentar login como trabajador

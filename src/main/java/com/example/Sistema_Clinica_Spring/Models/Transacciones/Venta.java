@@ -20,7 +20,7 @@ public class Venta {
     @Setter
     private Long idVenta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_transaccion", nullable = false)
     @Getter @Setter
     private Transaccion transaccion;
