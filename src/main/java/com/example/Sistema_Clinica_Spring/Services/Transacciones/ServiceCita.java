@@ -71,4 +71,9 @@ public class ServiceCita implements CitaService {
     public List<Object[]> obtenerHorariosDisponiblesPorEspecialidad() {
         return citaRepository.obtenerHorariosDisponiblesPorEspecialidad();
     }
+
+    public List<Cita> obtenerCitasPorPaciente(Long idPaciente) {
+        return citaRepository.findByTransaccionIdPacienteOrderByCreatedAtDesc(idPaciente);
+    }
+
 }

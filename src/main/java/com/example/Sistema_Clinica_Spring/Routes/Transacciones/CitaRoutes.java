@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/citas")
@@ -100,7 +101,15 @@ public class CitaRoutes {
     }
 
     @GetMapping("/exito")
-    public String exitoCita(Model model) {
+    public String exitoCita(HttpSession sesion, Model model) {
+        Paciente paciente = (Paciente) sesion.getAttribute("paciente");
+        if (paciente == null) {
+            return "redirect:/iniciarSesion";
+        }
+
+        List<Cita> listadoCitas = serviceCita.obtenerCitasPorPaciente(paciente.getId_paciente());
+        model.addAttribute("citasPaciente", listadoCitas);
         return "exitoCita";
     }
+
 }

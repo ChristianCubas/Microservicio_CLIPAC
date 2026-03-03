@@ -31,4 +31,7 @@ public interface CitaRepository extends JpaRepository<Cita,Long> {
         ORDER BY p.fecha, h.hora_inicio
     """, nativeQuery = true)
     List<Object[]> obtenerHorariosDisponiblesPorEspecialidad();
+
+    @Query("SELECT c FROM Cita c JOIN c.transaccion t WHERE t.idPaciente = :idPaciente")
+    List<Cita> findByTransaccionIdPacienteOrderByCreatedAtDesc(@Param("idPaciente") Long idPaciente);
 }
