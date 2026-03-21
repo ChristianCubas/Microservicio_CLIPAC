@@ -9,18 +9,21 @@ import com.example.Sistema_Clinica_Spring.Services.Transacciones.ServiceCita;
 import com.example.Sistema_Clinica_Spring.Services.Transacciones.ServiceTransaccion;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/citas")
@@ -34,6 +37,11 @@ public class CitaRoutes {
 
     @Autowired
     private ServiceProgramacion serviceProgramacion;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    /* Lado del paciente */
 
     @GetMapping("/nuevo")
     public String registrarCita(Model model, HttpSession sesion) {
@@ -107,9 +115,29 @@ public class CitaRoutes {
             return "redirect:/iniciarSesion";
         }
 
-        List<Cita> listadoCitas = serviceCita.obtenerCitasPorPaciente(paciente.getId_paciente());
-        model.addAttribute("citasPaciente", listadoCitas);
         return "exitoCita";
+    }
+
+    /* Rutas del lado del dashboard */
+
+    @GetMapping
+    public String listarCitas(Model model){
+        List<Cita> listadoCitas = serviceCita.listarCitas();
+        model.addAttribute("citas",listadoCitas);
+        return "dashboard/Apartados/Citas";
+    }
+
+    @GetMapping("/notificacion/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> enviarNotificacion(@PathVariable long id) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo("christiancubasjaramillo@gmail.com");
+        mensaje.setSubject("Link de cita virtual");
+        mensaje.setText("Buen día estimado paciente, para poder acceder a su cita ingrese al siguiente enlace http://localhost:5000/citas/consulta-virtual/paciente/"+id+"/");
+
+        mailSender.send(mensaje);
+
+        return ResponseEntity.ok().build();  // HTTP 200 sin body
     }
 
 }

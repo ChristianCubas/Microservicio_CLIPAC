@@ -40,5 +40,5 @@ public class Venta {
             inverseJoinColumns = @JoinColumn(name = "id_medicamento")
     )
     @Getter @Setter
-    private List<Medicamento> listadoMedicamentos;
+    private List<Medicamento> listadoMedicamentosVentas;
 }

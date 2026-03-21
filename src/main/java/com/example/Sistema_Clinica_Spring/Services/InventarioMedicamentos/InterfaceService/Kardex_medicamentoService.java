@@ -1,6 +1,7 @@
 package com.example.Sistema_Clinica_Spring.Services.InventarioMedicamentos.InterfaceService;
 
 import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Kardex_medicamento;
+import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Medicamento;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

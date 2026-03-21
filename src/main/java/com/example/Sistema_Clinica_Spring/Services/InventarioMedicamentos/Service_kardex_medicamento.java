@@ -1,7 +1,9 @@
 package com.example.Sistema_Clinica_Spring.Services.InventarioMedicamentos;
 
 import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Kardex_medicamento;
+import com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos.Medicamento;
 import com.example.Sistema_Clinica_Spring.Repository.InventarioMedicamentos.Kardex_medicamentoRepository;
+import com.example.Sistema_Clinica_Spring.Repository.InventarioMedicamentos.MedicamentoRepository;
 import com.example.Sistema_Clinica_Spring.Services.InventarioMedicamentos.InterfaceService.Kardex_medicamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ public class Service_kardex_medicamento implements Kardex_medicamentoService {
     @Autowired
     Kardex_medicamentoRepository kardexMedicamentoRepository;
 
+    @Autowired
+    MedicamentoRepository medicamentoRepository;
+
     public List<Kardex_medicamento> listarKardexMedicamento(){
         return kardexMedicamentoRepository.findAll();
     }
@@ -25,7 +30,17 @@ public class Service_kardex_medicamento implements Kardex_medicamentoService {
     }
 
     public ResponseEntity<String> crearKardexMedicamento(Kardex_medicamento kardex){
+        Medicamento medicamento = medicamentoRepository.findById(kardex.getMedicamento().getId_medicamento()).orElse(null);
+
+        if (kardex.getTipoMovimiento().equalsIgnoreCase("entrada")){
+            medicamento.setStock_unidades(medicamento.getStock_unidades()+kardex.getCantidad());
+        }else{
+            medicamento.setStock_unidades(medicamento.getStock_unidades()-kardex.getCantidad());
+        }
+
         kardexMedicamentoRepository.save(kardex);
+        medicamentoRepository.save(medicamento);
+
         return ResponseEntity.ok("movimiento kardex registrado correctamente");
     }
 
@@ -40,6 +55,15 @@ public class Service_kardex_medicamento implements Kardex_medicamentoService {
             kardex_med.setMotivo(kardex.getMotivo());
             kardex_med.setTipoMovimiento(kardex.getTipoMovimiento());
 
+            Medicamento medicamento = medicamentoRepository.findById(kardex.getMedicamento().getId_medicamento()).orElse(null);
+
+            if (kardex.getTipoMovimiento().equalsIgnoreCase("entrada")){
+                medicamento.setStock_unidades(medicamento.getStock_unidades()+kardex.getCantidad());
+            }else{
+                medicamento.setStock_unidades(medicamento.getStock_unidades()-kardex.getCantidad());
+            }
+
+            medicamentoRepository.save(medicamento);
             kardexMedicamentoRepository.save(kardex_med);
             return ResponseEntity.ok("Kardex actualizado correctamente");
         }

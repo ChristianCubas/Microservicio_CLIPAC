@@ -3,59 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Cita Exitosa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
-<div class="container mt-5">
-  <div class="alert alert-success">
-    <h4>✅ <i class="bi bi-check-circle"></i> Cita registrada exitosamente</h4>
+<body class="bg-light">
+<header class="mb-5">
+  <div class="container">
+    <div class="logo">
+      <img src="/imgs/clipac.png">
+    </div>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="/pacientes/nuevo">Regístrate</a>
+      <a href="/iniciarSesion">Iniciar Sesión</a>
+    </nav>
   </div>
+</header>
+<br/>
+<section class="w-100 my-5">
+  <div class="text-center">
 
-  <h2 class="mb-4">📋 Tus Citas</h2>
+    <!-- Icono Check -->
+    <i class="bi bi-check-circle-fill text-success" style="font-size:80px;"></i>
 
-  <div th:if="${citasPaciente != null and !citasPaciente.isEmpty()}">
-    <table class="table table-striped table-hover">
-      <thead class="table-dark">
-      <tr>
-        <th>ID Cita</th>
-        <th>Fecha/Hora</th>
-        <th>Especialidad</th>
-        <th>Médico</th>
-        <th>Consultorio</th>
-        <th>Modalidad</th>
-        <th>Estado</th>
-      </tr>
-      </thead>
-      <tbody>
+    <!-- Texto -->
+    <h3 class="mt-3 text-success">Cita Exitosa</h3>
 
-      <tr th:each="cita : ${citasPaciente}">
-        <td th:text="${cita.id_cita}"></td>
-        <td>
-          <span th:text="${cita.programacion.fecha} + ' ' + ${cita.programacion.horario?.hora_inicio}"></span>
-        </td>
-        <td th:text="${cita.programacion.trabajador?.especialidad?.nombre}"></td>
-        <td th:text="${cita.programacion.trabajador?.nombres} + ' ' + ${cita.programacion.trabajador?.apellidos}"></td>
-        <td th:text="${cita.programacion.id_consultorio}"></td>
-        <td>
-          <span th:if="${cita.modalidad == 1}" class="badge bg-success">🏥 Presencial</span>
-          <span th:if="${cita.modalidad == 2}" class="badge bg-info">💻 Virtual</span>
-        </td>
-        <td>
-          <span th:if="${cita.estado == 1}" class="badge bg-success">Confirmada</span>
-          <span th:if="${cita.estado != 1}" class="badge bg-warning">Pendiente</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <!-- Botones -->
+    <div class="mt-4">
+      <a th:href="@{/citas/mis-citas}" class="btn btn-success me-2">
+        Ver Citas
+      </a>
+
+      <a th:href="@{/}" class="btn btn-secondary mt-0">
+        Ir al Inicio
+      </a>
+    </div>
+
   </div>
-
-  <!-- Si no hay citas -->
-  <div th:if="${citasPaciente == null or citasPaciente.isEmpty()}" class="alert alert-info">
-    <p>No tienes citas registradas aún.</p>
-  </div>
-
-  <a href="/citas/nuevo" class="btn btn-primary">Reservar Nueva Cita</a>
-  <a href="/" class="btn btn-secondary">Volver al Inicio</a>
-</div>
+</section>
 </body>
 </html>

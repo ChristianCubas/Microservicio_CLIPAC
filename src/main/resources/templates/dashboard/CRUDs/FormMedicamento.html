@@ -73,25 +73,6 @@
                         required></textarea>
             </div>
 
-            <!-- Stock -->
-            <div class="col-md-4 mb-3">
-              <label class="form-label">Stock</label>
-              <input type="number"
-                     min="0"
-                     class="form-control"
-                     th:field="*{stock}"
-                     required>
-            </div>
-
-            <!-- Fecha Expiración -->
-            <div class="col-md-4 mb-3">
-              <label class="form-label">Fecha de Expiración</label>
-              <input type="date"
-                     class="form-control"
-                     th:field="*{fecha_expiracion}"
-                     required>
-            </div>
-
             <!-- Estado -->
             <div class="col-md-4 mb-3">
               <label class="form-label">Estado</label>
@@ -103,7 +84,7 @@
             </div>
 
             <!-- Tipo Medicamento -->
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label">Tipo de Medicamento</label>
               <select class="form-select"
                       th:field="*{tipoMedicamento}"
@@ -117,7 +98,7 @@
             </div>
 
             <!-- Proveedor -->
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label">Proveedor</label>
               <select class="form-select"
                       th:field="*{proveedor}"
@@ -128,6 +109,18 @@
                         th:text="${prov.razon_social}">
                 </option>
               </select>
+            </div>
+
+            <!-- Stock -->
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Stock</label>
+              <input type="number" class="form-control" th:field="*{stock_unidades}" required />
+            </div>
+
+            <!-- Fecha plazo -->
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Fecha plazo</label>
+              <input type="date" class="form-control" th:field="*{fecha_plazo}" required />
             </div>
 
           </div>

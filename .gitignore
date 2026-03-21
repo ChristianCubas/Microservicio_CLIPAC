@@ -53,3 +53,7 @@ build/
 # Logs
 *.log
 
+#Comandos
+#./mvnw clean package
+#docker build -t spring-clipac .
+#docker run -d -p 8080:8080 --name miapp spring-clipac

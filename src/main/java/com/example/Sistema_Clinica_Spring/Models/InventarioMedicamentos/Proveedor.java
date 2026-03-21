@@ -1,5 +1,6 @@
 package com.example.Sistema_Clinica_Spring.Models.InventarioMedicamentos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "proveedor")
-@Data
+@Getter
+@Setter
 public class Proveedor {
 
     @Id
@@ -45,5 +47,6 @@ public class Proveedor {
     private Integer estado;
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Medicamento> listadoMedicamentos;
 }

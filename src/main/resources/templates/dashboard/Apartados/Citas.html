@@ -15,82 +15,83 @@
   <link rel="stylesheet"
         href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
+  <!-- CSS personalizado -->
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
-  <title>Gestión de Medicamentos</title>
+  <title>Gestión de Pacientes</title>
 
   <style>
+    /* Ajustes rápidos de badges */
+    .badge-presencial { background-color: #03B4FF; }
+    .badge-virtual { background-color: #272AF5; }
+
     .badge-activo { background-color: #198754; }
     .badge-inactivo { background-color: #dc3545; }
+
+    /* Botones de acción */
     .btn-accion { margin-right: 5px; }
   </style>
 </head>
 <body>
 
-<div th:replace="~{dashboard-layout :: dashboardLayout('Medicamentos', ~{::contenido})}">
+<div th:replace="~{dashboard-layout :: dashboardLayout('Citas', ~{::contenido})}">
 
   <div th:fragment="contenido" class="container py-4">
 
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="h3">Gestión de Medicamentos</h1>
-      <a th:href="@{/medicamentos/nuevo}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Crear Medicamento
+      <h1 class="h3">Gestión de Citas</h1>
+      <a th:href="@{/citas/nuevo}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Crear cita
       </a>
     </div>
 
     <!-- TABLA -->
     <div class="table-responsive">
-      <table id="tablaMedicamentos" class="table table-striped table-hover table-bordered align-middle">
+      <table id="tablaCitas" class="table table-striped table-hover table-bordered align-middle">
         <thead class="table-dark">
         <tr>
           <th>ID</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Tipo</th>
-          <th>Precio</th>
-          <th>Stock (unidades)</th>
-          <th>Proveedor</th>
-          <th>Fecha plazo</th>
+          <th>Medico</th>
+          <th>Horario</th>
+          <th>Consultorio</th>
+          <th>Modalidad</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="med : ${medicamentos}">
-          <td th:text="${med.id_medicamento}"></td>
-          <td th:text="${med.nombre}"></td>
-          <td th:text="${med.descripcion}"></td>
-          <td th:text="${med.tipoMedicamento.nombre}"></td>
-          <td th:text="${#numbers.formatDecimal(med.precio,1,2)}"></td>
-          <td th:text="${med.stock_unidades}"></td>
-          <td th:text="${med.proveedor.razon_social}"></td>
-          <td th:text="${med.fecha_plazo}"></td>
-
+        <tr th:each="cita : ${citas}">
+          <td th:text="${cita.id_cita}"></td>
+          <td th:text="${cita.programacion.trabajador?.nombres}"></td>
+          <td th:text="${cita.programacion.horario.hora_inicio + ' - ' + cita.programacion.horario.hora_fin}"></td>
+          <td th:text="${cita.programacion.consultorio?.nombre}"></td>
           <td>
-            <span class="badge"
-                  th:text="${med.estado == 1 ? 'Activo' : 'Inactivo'}"
-                  th:classappend="${med.estado == 1 ? ' badge-activo' : ' badge-inactivo'}">
+            <span class="badge" th:text="${cita.modalidad == 1 ? 'Presencial' : 'Virtual'}"
+                  th:classappend="${cita.modalidad == 1 ? ' badge-presencial' : ' badge-virtual'}">
             </span>
           </td>
-
           <td>
-            <a th:href="@{/medicamentos/editar/{id}(id=${med.id_medicamento})}"
-               class="btn btn-sm btn-warning btn-accion">
+            <span class="badge" th:text="${cita.estado == 1 ? 'Activo' : 'Inactivo'}"
+                  th:classappend="${cita.estado == 1 ? ' badge-activo' : ' badge-inactivo'}">
+            </span>
+          </td>
+          <td>
+            <a th:href="@{/citas/editar/{id}(id=${cita.id_cita})}" class="btn btn-sm btn-warning btn-accion">
               <i class="fas fa-edit"></i>
             </a>
-
-            <a th:href="@{/medicamentos/baja/{id}(id=${med.id_medicamento})}"
-               class="btn btn-sm btn-secondary btn-accion">
-              <i class="fas fa-ban"></i>
+            <a th:href="@{/citas/baja/{id}(id=${cita.id_cita})}" class="btn btn-sm btn-secondary btn-accion">
+              <i class="fas fa-user-slash"></i>
             </a>
-
-            <a th:href="@{/medicamentos/eliminar/{id}(id=${med.id_medicamento})}"
-               class="btn btn-sm btn-danger btn-accion"
-               onclick="return confirm('¿Seguro que deseas eliminar este medicamento?')">
+            <a th:href="@{/citas/eliminar/{id}(id=${cita.id_cita})}" class="btn btn-sm btn-danger btn-accion"
+               onclick="return confirm('¿Seguro que deseas eliminar esta cita?')">
               <i class="fas fa-trash"></i>
             </a>
+            <a th:href="'http://localhost:5000/citas/consulta-virtual/doctor/' + ${cita.id_cita} + '/'"
+               th:if="${cita.modalidad == 2}"
+               class="btn bg-primary text-white">
+              <i class="fa-solid fa-laptop"></i> Entrar
+            </a>
           </td>
-
         </tr>
         </tbody>
       </table>
@@ -103,7 +104,7 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<!-- Bootstrap -->
+<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- DataTables -->
@@ -113,6 +114,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
+      // Sidebar toggle
       const toggleBtn = document.getElementById("toggleSidebar");
       const sidebar = document.getElementById("sidebar");
 
@@ -122,7 +124,8 @@
           });
       }
 
-      $('#tablaMedicamentos').DataTable({
+      // Inicializar DataTable
+      $('#tablaCitas').DataTable({
           language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
           },

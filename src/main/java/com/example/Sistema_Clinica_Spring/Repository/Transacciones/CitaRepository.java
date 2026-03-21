@@ -34,4 +34,5 @@ public interface CitaRepository extends JpaRepository<Cita,Long> {
 
     @Query("SELECT c FROM Cita c JOIN c.transaccion t WHERE t.idPaciente = :idPaciente")
     List<Cita> findByTransaccionIdPacienteOrderByCreatedAtDesc(@Param("idPaciente") Long idPaciente);
+
 }
